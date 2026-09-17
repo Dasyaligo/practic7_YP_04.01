@@ -12,7 +12,8 @@ class ApiCustomerRepository implements CustomerRepository {
     dynamic query = _db.from('customers').select();
     if (!q.includeDeleted) query = query.isFilter('deleted_at', null);
     if (q.search.trim().isNotEmpty) {
-      query = query.or('full_name.ilike.%${q.search.trim()}%,email.ilike.%${q.search.trim()}%,phone.ilike.%${q.search.trim()}%');
+      final s = q.search.trim();
+      query = query.or('full_name.ilike.%$s%,email.ilike.%$s%,phone.ilike.%$s%');
     }
     final from = (q.page - 1) * q.size;
     final to = from + q.size - 1;
@@ -32,8 +33,12 @@ class ApiCustomerRepository implements CustomerRepository {
 
   @override
   Future<Customer?> findById(int id) async {
-    final data = await _db.from('customers').select()
-        .eq('id', id).isFilter('deleted_at', null).maybeSingle();
+    final data = await _db
+        .from('customers')
+        .select()
+        .eq('id', id)
+        .isFilter('deleted_at', null)
+        .maybeSingle();
     if (data == null) return null;
     return Customer.fromJson(data);
   }

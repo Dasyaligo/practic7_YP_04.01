@@ -11,7 +11,7 @@ class EmployeeQuery {
 
   const EmployeeQuery({
     this.search = '',
-    this.sortField = 'fullName',
+    this.sortField = 'full_name',
     this.sortAscending = true,
     this.page = 1,
     this.size = 10,

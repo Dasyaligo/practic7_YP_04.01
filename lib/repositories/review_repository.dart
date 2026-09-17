@@ -11,7 +11,7 @@ class ReviewQuery {
 
   const ReviewQuery({
     this.search = '',
-    this.sortField = 'date',
+    this.sortField = 'review_date',
     this.sortAscending = false,
     this.page = 1,
     this.size = 10,

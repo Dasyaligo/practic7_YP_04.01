@@ -16,7 +16,9 @@ class ApiReviewRepository implements ReviewRepository {
     }
     final from = (q.page - 1) * q.size;
     final to = from + q.size - 1;
-    query = query.order(q.sortField, ascending: q.sortAscending).range(from, to);
+    query = query
+        .order('review_date', ascending: q.sortAscending)
+        .range(from, to);
     final data = await query;
     final items = (data as List)
         .map((e) => Review.fromJson(e as Map<String, dynamic>))
@@ -32,8 +34,12 @@ class ApiReviewRepository implements ReviewRepository {
 
   @override
   Future<Review?> findById(int id) async {
-    final data = await _db.from('reviews').select()
-        .eq('id', id).isFilter('deleted_at', null).maybeSingle();
+    final data = await _db
+        .from('reviews')
+        .select()
+        .eq('id', id)
+        .isFilter('deleted_at', null)
+        .maybeSingle();
     if (data == null) return null;
     return Review.fromJson(data);
   }

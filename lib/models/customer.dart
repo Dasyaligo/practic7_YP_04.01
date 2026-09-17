@@ -3,7 +3,7 @@ class Customer {
   final String fullName;
   final String email;
   final String phone;
-  final int? loyaltyCardId; 
+  final int? loyaltyCardId;
   final int loyaltyPoints;
   final DateTime createdAt;
   final DateTime? deletedAt;
@@ -56,12 +56,20 @@ class Customer {
 
   factory Customer.fromJson(Map<String, dynamic> json) => Customer(
         id: json['id'] as int? ?? 0,
-        fullName: json['fullName'] as String? ?? '',
+        fullName: (json['full_name'] ?? json['fullName']) as String? ?? '',
         email: json['email'] as String? ?? '',
         phone: json['phone'] as String? ?? '',
-        loyaltyCardId: json['loyaltyCardId'] as int?,
-        loyaltyPoints: json['loyaltyPoints'] as int? ?? 0,
-        createdAt: json['createdAt'] != null ? DateTime.parse(json['createdAt'] as String) : DateTime.now(),
-        deletedAt: json['deletedAt'] != null ? DateTime.parse(json['deletedAt'] as String) : null,
+        loyaltyCardId:
+            (json['loyalty_card_id'] ?? json['loyaltyCardId']) as int?,
+        loyaltyPoints:
+            (json['loyalty_points'] ?? json['loyaltyPoints']) as int? ?? 0,
+        createdAt: (json['created_at'] ?? json['createdAt']) != null
+            ? DateTime.parse(
+                (json['created_at'] ?? json['createdAt']) as String)
+            : DateTime.now(),
+        deletedAt: (json['deleted_at'] ?? json['deletedAt']) != null
+            ? DateTime.parse(
+                (json['deleted_at'] ?? json['deletedAt']) as String)
+            : null,
       );
 }
